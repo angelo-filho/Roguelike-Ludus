@@ -1,4 +1,5 @@
 public enum Tags
 {
-    Enemy
+    Enemy,
+    Player
 }

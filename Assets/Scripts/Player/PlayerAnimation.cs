@@ -13,18 +13,6 @@ public class PlayerAnimation : Player
         FacingDown
     }
 
-    private enum AnimNames
-    {
-        WalkingRight,
-        WalkingLeft,
-        WalkingUp,
-        WalkingDown,
-        IdleRight,
-        IdleLeft,
-        IdleUp,
-        IdleDown
-    }
-
     private FacingDirection m_FacingDirection;
 
     protected override void Awake()
@@ -81,11 +69,11 @@ public class PlayerAnimation : Player
         }
     }
 
-    private void ChangeAnimation(AnimNames animationName)
+    private void ChangeAnimation(AnimNames animationNames)
     {
-        if (m_CurrentAnimation == animationName.ToString()) return;
+        if (m_CurrentAnimation == animationNames.ToString()) return;
 
-        m_CurrentAnimation = animationName.ToString();
+        m_CurrentAnimation = animationNames.ToString();
         m_Animator.Play(m_CurrentAnimation);
     }
 }
