@@ -25,6 +25,14 @@ public class @InputActions : IInputActionCollection, IDisposable
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Shoot"",
+                    ""type"": ""Button"",
+                    ""id"": ""d2d43405-3127-4b55-9cba-fa20a469b746"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -137,6 +145,28 @@ public class @InputActions : IInputActionCollection, IDisposable
                     ""action"": ""Movements"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""02aa7110-046d-4816-b206-8f9524cea719"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Shoot"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""21226887-6e9e-42fc-88a6-12348c5d0a0f"",
+                    ""path"": ""<Keyboard>/z"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Shoot"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -146,6 +176,7 @@ public class @InputActions : IInputActionCollection, IDisposable
         // Player
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
         m_Player_Movements = m_Player.FindAction("Movements", throwIfNotFound: true);
+        m_Player_Shoot = m_Player.FindAction("Shoot", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -196,11 +227,13 @@ public class @InputActions : IInputActionCollection, IDisposable
     private readonly InputActionMap m_Player;
     private IPlayerActions m_PlayerActionsCallbackInterface;
     private readonly InputAction m_Player_Movements;
+    private readonly InputAction m_Player_Shoot;
     public struct PlayerActions
     {
         private @InputActions m_Wrapper;
         public PlayerActions(@InputActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @Movements => m_Wrapper.m_Player_Movements;
+        public InputAction @Shoot => m_Wrapper.m_Player_Shoot;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -213,6 +246,9 @@ public class @InputActions : IInputActionCollection, IDisposable
                 @Movements.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMovements;
                 @Movements.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMovements;
                 @Movements.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMovements;
+                @Shoot.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShoot;
+                @Shoot.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShoot;
+                @Shoot.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShoot;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -220,6 +256,9 @@ public class @InputActions : IInputActionCollection, IDisposable
                 @Movements.started += instance.OnMovements;
                 @Movements.performed += instance.OnMovements;
                 @Movements.canceled += instance.OnMovements;
+                @Shoot.started += instance.OnShoot;
+                @Shoot.performed += instance.OnShoot;
+                @Shoot.canceled += instance.OnShoot;
             }
         }
     }
@@ -227,5 +266,6 @@ public class @InputActions : IInputActionCollection, IDisposable
     public interface IPlayerActions
     {
         void OnMovements(InputAction.CallbackContext context);
+        void OnShoot(InputAction.CallbackContext context);
     }
 }
