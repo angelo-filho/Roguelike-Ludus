@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using UnityEngine;
 
@@ -6,6 +5,7 @@ public class Projectile : MonoBehaviour
 {
     [SerializeField] private float speed;
     [SerializeField] private float lifeTime;
+    [SerializeField] private float damage;
 
     private IEnumerator projectileCoroutine;
     
@@ -35,7 +35,7 @@ public class Projectile : MonoBehaviour
     {
         if (other.CompareTag(Tags.Enemy.ToString()))
         {
-            Destroy(other.gameObject);
+            other.GetComponent<Enemy>().ReceiveHit(damage);
             gameObject.SetActive(false);
         }
     }
